@@ -4,7 +4,8 @@
 #Date: 4/1/2015
 #Description: A bash script to see if certain security/crypto programs are installed. If not, install them. Requires user to input sudo
 ###############################################
-echo "Remember this script will install necessary tools. Thus sudo will be used"
+
+echo "Remember this script will install essential netSec tools. Thus sudo will be used for the installation. Missing something on list? Report on Github!"
 echo ""
 while true; do
     read -p "Ready to take the Red pill?" yn
@@ -14,8 +15,9 @@ while true; do
 	* ) echo "Its a Yes or no.";
     esac
 done
-
+echo ""
 echo "Ok now to get the stuff onto your computer"
+echo ""
     
 
 ##############################
@@ -30,6 +32,9 @@ function firefoxBrowser(){
 
 	echo "Don't got firefox? Time to get it installed"
 	sudo apt-get install firefox -y
+	firefoxPATH=$(which firefox)
+	echo "Firefox was installed in "$firefoxPATH
+	echo ""
     fi
 }
 
@@ -42,6 +47,7 @@ function torBrowserCheck(){
     if [[ -n $(find $HOME -name "start-tor-browser") ]] 
     then
 	echo "TOR browser bundle exists"
+
     else
 	echo "you don't have tor. It's essential for privacy. Remove if you wish"
 
@@ -49,6 +55,7 @@ function torBrowserCheck(){
 	tar xvf tor-browser-linux64-4.0.6_en-US.tar.xz;
 	torFolder=$HOME/tor-browser_en-US/
 	echo "Tor is Now setup in " $torFolder
+	echo ""
 
     fi
 }
@@ -62,7 +69,23 @@ function aircrackngCheck(){
     else
 	sudo apt-get update -y
 	sudo apt-get install aircrack-ng -y
+	aircrackPATH = $(which aircrack-ng)
+	echo "Aircrack has been installed in " $aircrackPATH
+	echo ""
     fi
+}
+
+############################
+function nmapCheck(){
+    echo "Do you have nmap?"
+    if type nmap 2>/dev/null>/dev/null;
+    then
+	echo "it exists"
+    else
+	sudo apt-get install nmap -y
+	nmapPATH = $(which nmap)
+	echo "nmap has been installed in" $nmapPATH
+	echo ""
 }
 
 #################################
@@ -70,6 +93,7 @@ function callAllFunctions(){
     firefoxBrowser;
     aircrackngCheck;
     torBrowserCheck;
+    nmapCheck;
 }
 
 callAllFunctions;
