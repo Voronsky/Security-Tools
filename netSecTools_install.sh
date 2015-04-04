@@ -27,7 +27,7 @@ function checkDistro(){
 
     if echo $distro == "Ubuntu*" || $distro == "Debian*";
 	then
-	echo "It is ubuntu. We will use Apt-get"
+	echo "It is $distro. We will use Apt-get"
 	pkgUpdate=$(sudo apt-get update)
 	pkgInstall=$(sudo apt-get install)
 	fi
