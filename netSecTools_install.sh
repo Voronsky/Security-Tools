@@ -10,6 +10,7 @@ echo ""
 echo "This SCRIPT WILL START IN THE HOME DIRECTORY!"
 echo ""
 
+#SUPA DUPA COOL PH DESIGN
 echo "=======================================================
                /////      //
                //  /      //         
