@@ -15,4 +15,4 @@ Repository for a bash script I made to autonomize the installation of essential 
 <li>yum</li>
 </ul>
 
-<p>Want more support? make a ticket with the package manager request and preferrably the path of it on your distro.</p>
+<p>Want more support? make a request with the specific package manager and preferrably the path of it on your distro.</p>
