@@ -34,7 +34,7 @@ done
 echo "First thing, let's figure out the package manager"
 echo ""
 
-function checkDistro(){
+function checkPkgMngr(){
 
     #the -z parameter in bash checks to see if the given commands returns
     #if the string length equals zero. the ! will give it a true condition for if we the string returned > 0.
@@ -48,7 +48,7 @@ function checkDistro(){
 	pkgInstall="sudo pacman -S"
 
 }
-checkDistro;   
+checkPkgMngr;   
 
 echo ""
 echo "You use $pkgMngr"
