@@ -49,13 +49,13 @@ function checkPkgMngr(){
 	pkgInstall="sudo pacman -S"
 	
     elif [[! -z $(which yum) ]]; then
-
 	pkgMngr="yum"
 	pkgUpdate="yum update -y"
 	pkgInstall="yum install -y"
 
     fi
 }
+
 checkPkgMngr;   
 
 echo ""
@@ -198,6 +198,21 @@ function gpgCheck(){
     fi
 }
 
+################################
+
+function openSSHCheck(){
+    
+    if type ssh 2>/dev/null>/dev/null; then
+	echo "it exists"
+    else
+	echo "We will need to get ssh client and server"
+	$(echo $pkgInstall) openssh-client && openssh-server
+	sshPATH=$(which ssh)
+	echo "openssh installed in $sshPATH"
+    fi
+
+}
+
 #################################
 function callAllFunctions(){
 
@@ -209,6 +224,7 @@ function callAllFunctions(){
     wireSharkCheck;
     ncCheck;
     gpgCheck;
+    openSSHCheck;
 
 }
 
