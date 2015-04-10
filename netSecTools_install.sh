@@ -31,26 +31,16 @@ while true; do
 	* ) echo "Its a Yes or no.";
     esac
 done
-echo "First thing, let's figure out the distro"
+echo "First thing, let's figure out the package manager"
 echo ""
 
-
-$(echo $pkgUpdate)
-
 function checkDistro(){
-    #Check the distro from the release files located normally in /etc/
-    #awk -f means "check after the input parameter, so "=" in our case. Then print $NF means print after it
-    #sed -n 1p means print output until certain lines are met. 1p means 1 line, 2p would be 2 lines, 3p be 3 lines etc
-    distro=$(cat /etc/*-release | awk -F "=" '{print $NF}' | sed -n 1p)
-
-    if echo $distro >/dev/null == "Ubuntu*" || echo $distro >/dev/null == "Debian*";
-	then
-	echo "It is $distro. We will use Apt-get"
-	pkgUpdate="sudo apt-get update -y"
-	pkgInstall="sudo apt-get install -y"
-    elif $distro == "Arch*";
-	then
-	echo "It is Arch. We will use Pacman"
+    if [[ ! -z $(which apt) ]]; then
+	pkgMngr="apt"
+	pkgUpdate="sudo apt-get -y update"
+	pkgInstall="sudo apt-get -y install"
+    elif [[ ! -z $(which pacman) ]]; then
+	pkgMngr="pacman"
 	pkgUpdate="sudo pacman -Syu"
 	pkgInstall="sudo pacman -S"
     fi
@@ -58,9 +48,12 @@ function checkDistro(){
 checkDistro;   
 
 echo ""
+echo "You use $pkgMngr"
+echo ""
 echo "Ok now to get the stuff onto your computer"
 echo ""
 echo "Let's update first"
+$(echo $pkgUpdate)
 
 ##############################
 
