@@ -35,6 +35,9 @@ echo "First thing, let's figure out the package manager"
 echo ""
 
 function checkDistro(){
+
+    #the -z parameter in bash checks to see if the given commands returns
+    #if the string length equals zero. the ! will give it a true condition for if we the string returned > 0.
     if [[ ! -z $(which apt) ]]; then
 	pkgMngr="apt"
 	pkgUpdate="sudo apt-get -y update"
@@ -43,7 +46,7 @@ function checkDistro(){
 	pkgMngr="pacman"
 	pkgUpdate="sudo pacman -Syu"
 	pkgInstall="sudo pacman -S"
-    fi
+
 }
 checkDistro;   
 
@@ -53,6 +56,7 @@ echo ""
 echo "Ok now to get the stuff onto your computer"
 echo ""
 echo "Let's update first"
+
 $(echo $pkgUpdate)
 
 ##############################
