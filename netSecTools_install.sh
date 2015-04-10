@@ -164,9 +164,11 @@ function wireSharkCheck(){
 #################################
 
 function ncCheck(){
+
     echo "Netcat, let's check that"
     
     if type nc 2>/dev/null>/dev/null;
+
     then
 	echo "it exits"
     else
@@ -179,8 +181,26 @@ function ncCheck(){
 
 #################################
 
+function gpgCheck(){
+    echo "do you have Gnu Private Guard? (GPG)"
+    if type gpg 2>/dev/null>/dev/null;
+    then
+	echo "it exists"
+	if [[ ! -z $(file $HOME/.gnupg/secring.gpg) ]]; then
+	    echo "Good job you got keys!"
+	else
+	    echo "Should probably get your own secret key setup"
+	fi
+    else
+	$(echo $pkgInstall) gpupg-agent
+	gpgPATH=$(which gpg)
+	echo "gpg has been installed in $gpgPATH get a key going!"
+    fi
+}
+
 #################################
 function callAllFunctions(){
+
     firefoxBrowser;
     aircrackngCheck;
     torBrowserCheck;
@@ -188,6 +208,8 @@ function callAllFunctions(){
     tsharkCheck;
     wireSharkCheck;
     ncCheck;
+    gpgCheck;
+
 }
 
 echo "Let us begin"
