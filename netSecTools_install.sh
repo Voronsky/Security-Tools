@@ -42,10 +42,17 @@ function checkPkgMngr(){
 	pkgMngr="apt"
 	pkgUpdate="sudo apt-get -y update"
 	pkgInstall="sudo apt-get -y install"
+
     elif [[ ! -z $(which pacman) ]]; then
 	pkgMngr="pacman"
 	pkgUpdate="sudo pacman -Syu"
 	pkgInstall="sudo pacman -S"
+	
+    elif [[! -z $(which yum) ]]; then
+
+	pkgMngr="yum"
+	pkgUpdate="yum update -y"
+	pkgInstall="yum install -y"
 
     fi
 }
