@@ -47,6 +47,7 @@ function checkPkgMngr(){
 	pkgUpdate="sudo pacman -Syu"
 	pkgInstall="sudo pacman -S"
 
+    fi
 }
 checkPkgMngr;   
 
