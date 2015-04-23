@@ -8,7 +8,6 @@
 echo "Remember this script will install essential netSec tools. Thus sudo will be used for the installation. Missing something on list? Report on Github!"
 echo ""
 echo "This SCRIPT WILL START IN THE HOME DIRECTORY!"
-echo ""
 
 #SUPA DUPA COOL PH DESIGN
 echo "=======================================================
@@ -20,15 +19,15 @@ echo "=======================================================
                //         //   //
 ======================================================="
 
-#To , by default, make sure the user is in their $HOME path during execution
+#To make sure the user is in their $HOME path during execution
 cd $HOME
 
 while true; do
     read -p "Ready to take the Red pill?" yn
     case $yn in
-	[Yy]* ) break;;#sudo apt-get update; break;;
-	[Nn]* ) echo "Run me again when your ready"; exit;;
-	* ) echo "Its a Yes or no.";
+	      [Yy]* ) break;;#sudo apt-get update; break;;
+	      [Nn]* ) echo "Run me again when your ready"; exit;;
+	      * ) echo "Its a Yes or no.";
     esac
 done
 echo "First thing, let's figure out the package manager"
@@ -39,19 +38,19 @@ function checkPkgMngr(){
     #the -z parameter in bash checks to see if the given commands returns
     #if the string length equals zero. the ! will give it a true condition for if we the string returned > 0.
     if [[ ! -z $(which apt) ]]; then
-	pkgMngr="apt"
-	pkgUpdate="sudo apt-get -y update"
-	pkgInstall="sudo apt-get -y install"
+	      pkgMngr="apt"
+	      pkgUpdate="sudo apt-get -y update"
+	      pkgInstall="sudo apt-get -y install"
 
     elif [[ ! -z $(which pacman) ]]; then
-	pkgMngr="pacman"
-	pkgUpdate="sudo pacman -Syu"
-	pkgInstall="sudo pacman -S"
-	
+	      pkgMngr="pacman"
+	      pkgUpdate="sudo pacman -Syu"
+	      pkgInstall="sudo pacman -S"
+	      
     elif [[! -z $(which yum) ]]; then
-	pkgMngr="yum"
-	pkgUpdate="yum update -y"
-	pkgInstall="yum install -y"
+	      pkgMngr="yum"
+	      pkgUpdate="yum update -y"
+	      pkgInstall="yum install -y"
 
     fi
 }
@@ -67,170 +66,86 @@ echo "Let's update first"
 
 $(echo $pkgUpdate)
 
-##############################
+##############################################
+#Lets do an Anon (optional) package prompt, if yes we will install some anon stuff
+#If no, then go on with netSec tools as normal
+##############################################
 
-function firefoxBrowser(){
+function anonCheck(){
 
-    echo "Lets see if you got firefox"
-    if type firefox 2>/dev/null > /dev/null; then
-	echo "it exists"
+    tools=('torBrowser' 'i2p' 'jitsi')
+    for i in "${tools[@]}"
+    do
+        temp=$(echo $i)
+        echo "Let's see if you got $temp"
+        if [ "$temp" == "torBrowser" ]; then #first check to see if TOR browser string
 
-    else 
-
-	echo "Don't got firefox? Time to get it installed"
-	$(echo $pkgInstall) firefox 
-	firefoxPATH=$(which firefox)
-	echo "Firefox was installed in $firefoxPATH"
-	echo ""
-    fi
-}
-
-###############################
-
-
-function torBrowserCheck(){
-    echo "Lets get some Anonyminity setup!"
-    #the -n parameter tests for a non-empty string. Using this to test if find can find a file with this name anyhwere within the user's $HOME path
-    if [[ -n $(find $HOME -name "start-tor-browser")  ]] 
-    then
-	echo "TOR browser bundle exists"
-
-    else
-	echo "you don't have tor. It's essential for privacy. Remove if you wish"
-
-	wget https://www.torproject.org/dist/torbrowser/4.0.6/tor-browser-linux64-4.0.6_en-US.tar.xz;
-	tar xvf tor-browser-linux64-4.0.6_en-US.tar.xz;
-	torFolder=$HOME/tor-browser_en-US/
-	echo "Tor is Now setup in $torFolder"
-	echo ""
-
-    fi
-}
-
-#############################
-function aircrackngCheck(){
-    echo "Do you have aircrack-ng?"
-    if type aircrack-ng 2>/dev/null > /dev/null;
-    then
-	echo "it exists"
-    else
-	$(echo $pkgInstall) aircrack-ng 
-	aircrackPATH=$(which aircrack-ng)
-	echo "Aircrack has been installed in  $aircrackPATH"
-	echo ""
-    fi
-}
-
-############################
-function nmapCheck(){
-    echo "Do you have nmap?"
-    if type nmap 2>/dev/null>/dev/null;
-    then
-	echo "it exists"
-    else
-	$(echo $pkgInstall) nmap 
-	nmapPATH=$(which nmap)
-	echo "nmap has been installed in $nmapPATH"
-	echo ""
-    fi
-}
-
-#############################
-function tsharkCheck(){
-    echo "Do you have tshark?"
-    if type tshark 2>/dev/null>/dev/null;
-    then
-	echo "it exists"
-    else
-	$(echo $pkgInstall) tshark 
-	tsharkPATH=$(which tshark)
-	echo "tshark has been installed in $tsharkPATH"
-    fi
-}
-
-##############################
-function wireSharkCheck(){
-    echo "Do you got wireshark?"
-
-    if type wireshark 2>/dev/null>/dev/null;
-    then
-	echo "it exists"
-    else
-	$(echo $pkgInstall) wireshark
-	wireSharkPATH=$(which wireshark)
-	echo "wireshark has been installed in $wireSharkPath"
-    fi
-}
-#################################
-
-function ncCheck(){
-
-    echo "Netcat, let's check that"
+            if [[ -n $(find $HOME -name "start-tor-browser")  ]]; then
+                echo "TOR browser bundle exists"
+            else
+                echo "you don't have tor. It's essential for privacy. Remove if you wish"
+                wget https://dist.torproject.org/torbrowser/4.0.8/tor-browser-linux64-4.0.8_en-US.tar.xz;
+                tar xvf tor-browser-linux64-4.0.8_en-US.tar.xz;
+	              torFolder=$HOME/tor-browser_en-US/
+	              echo "Tor is Now setup in $torFolder"
+	              echo ""
+            fi
+        elif [ "$temp" == "i2p" ]; then
+            #check for i2p specific
+            if [[ -n $(find $HOME -name "*i2p*") ]]; then
+                echo "$temp Exist"
+            else
+                echo "Didn't find $temp on the system. Time to install"
+                $(echo $pkgInstall) $temp
+                tempPATH=$(which $temp)
+                echo "$temp was installed in $tempPATH"
+                echo ""
+            fi
+        else
+            #Check for the other tools that aren't i2p or tor
+            if type $temp 2>/dev/null > /dev/null; then
+                echo "it exists"
+            else
+                echo "Didn't find $temp on system. Time to install"
+                $(echo $pkgInstall) $temp
+                tempPATH=$(which $temp)
+                echo "$temp was installed in $tempPATH"
+                echo  ""
+            fi
+        fi
+    done
     
-    if type nc 2>/dev/null>/dev/null;
-
-    then
-	echo "it exits"
-    else
-	$(echo $pkgInstall) nc
-	ncPATH=$(which nc)
-	echo "nc has been installed in $ncPATH"
-    fi
+}
+#########################################
+function toolCheck(){
+    tools=('nmap' 'netcat' 'firefox' 'gpg' 'wireshark' 'tshark')
+    for i in "${tools[@]}"
+    do
+        temp=$(echo $i)
+        echo "Lets see if you got $temp"
+        if type $temp 2>/dev/null > /dev/null; then
+            echo "it exists"
+        else
+            "Didn't find $temp on system. Time to install"
+            $(echo $pkgInstall) $temp
+            tempPATH=$(which $temp)
+            echo "$temp was installed in $tempPATH"
+            echo  ""
+        fi
+    done
 
 }
-
 #################################
-
-function gpgCheck(){
-    echo "do you have Gnu Private Guard? (GPG)"
-    if type gpg 2>/dev/null>/dev/null;
-    then
-	echo "it exists"
-	if [[ ! -z $(file $HOME/.gnupg/secring.gpg) ]]; then
-	    echo "Good job you got keys!"
-	else
-	    echo "Should probably get your own secret key setup"
-	fi
-    else
-	$(echo $pkgInstall) gpupg-agent
-	gpgPATH=$(which gpg)
-	echo "gpg has been installed in $gpgPATH get a key going!"
-    fi
-}
-
-################################
-
-function openSSHCheck(){
-    
-    if type ssh 2>/dev/null>/dev/null; then
-	echo "it exists"
-    else
-	echo "We will need to get ssh client and server"
-	$(echo $pkgInstall) openssh-client && openssh-server
-	sshPATH=$(which ssh)
-	echo "openssh installed in $sshPATH"
-    fi
-
-}
-
-#################################
-function callAllFunctions(){
-
-    firefoxBrowser;
-    aircrackngCheck;
-    torBrowserCheck;
-    nmapCheck;
-    tsharkCheck;
-    wireSharkCheck;
-    ncCheck;
-    gpgCheck;
-    openSSHCheck;
-
-}
-
 echo "Let us begin"
-
-callAllFunctions;
-echo ""
-echo ""
+#anonCheck;
+#Loop to trigger the optional anon install
+while true; do
+    read -p "Want to have anonymity tools as well[y/n] " yn
+    case $yn in
+	      [Yy]* ) anonCheck;break;;
+	      [Nn]* ) echo "Ok continuining the rest of the setup"; break;;
+	      * ) echo "Its a Yes or no.";
+    esac
+done
+toolCheck; #primary function to install all basic tools
 echo "All Done. Welcome aboard."
