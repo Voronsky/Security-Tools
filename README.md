@@ -16,3 +16,13 @@ Repository for a bash script I made to autonomize the installation of essential 
 </ul>
 
 <p>Want more support? make a request with the specific package manager and preferrably the path of it on your distro.</p>
+
+<h2>Supported Operating systems</h2>
+<ul>
+<li>Linux</li>
+<li><a href=https://github.com/typedeph/NetSecTools>Windows</a></li>
+<li>Mac OS(Coming Soon)</li>
+</ul>
+
+<h2>Contributors</h2>
+<ul><li>@typedeph</li></ul>
