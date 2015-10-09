@@ -84,8 +84,8 @@ function anonCheck(){
                 echo "TOR browser bundle exists"
             else
                 echo "you don't have tor. It's essential for privacy. Remove if you wish"
-                wget https://dist.torproject.org/torbrowser/4.0.8/tor-browser-linux64-4.0.8_en-US.tar.xz;
-                tar xvf tor-browser-linux64-4.0.8_en-US.tar.xz;
+                wget https://dist.torproject.org/torbrowser/5.0.3/tor-browser-linux64-5.0.3_en-US.tar.xz;
+                tar xvf tor-browser-linux64-5.0.3_en-US.tar.xz;
 	              torFolder=$HOME/tor-browser_en-US/
 	              echo "Tor is Now setup in $torFolder"
 	              echo ""
